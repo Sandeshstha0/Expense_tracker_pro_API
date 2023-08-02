@@ -12,7 +12,17 @@ const register = async (req, res) => {
   //validations...
   if (!email) throw "email must be provided";
   if (!password) throw "Password must be provided";
-  if (password.length < 5) throw "Password must be atleast 5 word";
+  if (password.length < 8) throw "Password must be at least 8 characters";
+  if (
+    !/[a-z]/.test(password) ||
+    !/[A-Z]/.test(password) ||
+    !/[0-9]/.test(password) ||
+    !/[!@#$%^&*]/.test(password)
+  ) {
+    throw "Password must include lowercase and uppercase letters, numbers, and special characters";
+  }
+  if (password.includes(name)) throw "Password cannot contain your name";
+  if (password === email) throw "Password cannot be the same as your email";
   if (!name) throw "Name is required";
   if (password !== confirm_password) throw "Password need to be same";
 
